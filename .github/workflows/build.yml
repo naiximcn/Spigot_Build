@@ -36,3 +36,19 @@ jobs:
         uses: ./
         with:
           versions: 1.19
+  # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
+  original-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v2
+        with:
+          # This version should probably match the ones from the 'run'-job
+          java-version: 17
+          distribution: temurin
+
+      - name: Run original Spigot-BuildTools (latest)
+        # These versions should match the ones from the 'run'-job
+        # Using '--compile Spigot' as this action does the same by default
+        run: |
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
+          java -jar BuildTools.jar --rev latest --compile Spigot
