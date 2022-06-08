@@ -2,44 +2,63 @@
 
 name: '1.19'
 
-# Controls when the workflow will run
+
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # Make sure clean build works properly
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+      - name: Install dependencies and build
+        run: |
+          npm i
+          npm run build
 
-      # Runs a single command using the runners shell
-      - name: Setup java
-        uses: actions/setup-java@v3
+  # Make sure the action works on a clean machine without building it
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup JDK version
+      - uses: actions/setup-java@v2
         with:
-          distribution: "adopt"
-          java-version: 17
+          java-version: 8
+          distribution: temurin
 
-      - name: Compile 1.19 spigot version
+      - name: Compile latest spigot version
         uses: ./
         with:
-          versions: 1.19
+          versions: latest
+
+      # Run again. The Action should detect that the requested versions are already inside the local maven repo
+      - name: Compile the same version again (latest)
+        uses: ./
+        with:
+          # These versions should match the ones above
+          versions: latest
+
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 8
+          distribution: temurin
+          
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: /tmp/SpraxDev-Action-SpigotMC/logs/
+          
   # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
-  original-run:
-    runs-on: ubuntu-latest
-    steps:
+    original-run:
+      runs-on: ubuntu-latest
+      steps:
       - uses: actions/setup-java@v2
         with:
           # This version should probably match the ones from the 'run'-job
