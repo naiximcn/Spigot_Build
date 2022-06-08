@@ -28,7 +28,7 @@ jobs:
       # Setup JDK version
       - uses: actions/setup-java@v2
         with:
-          java-version: 8
+          java-version: 17
           distribution: temurin
 
       - name: Compile latest spigot version
