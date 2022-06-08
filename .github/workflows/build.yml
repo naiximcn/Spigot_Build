@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/setup-java@v2
         with:
-          java-version: 8
+          java-version: 17
           distribution: temurin
           
       - name: Upload logs
@@ -56,7 +56,7 @@ jobs:
           path: /tmp/SpraxDev-Action-SpigotMC/logs/
           
   # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
-    original-run:
+  original-run:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/setup-java@v2
