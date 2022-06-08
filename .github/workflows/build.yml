@@ -30,7 +30,7 @@ jobs:
           distribution: temurin
 
       - name: Compile latest spigot version
-        uses: ./
+        uses: java -jar BuildTools.jar
         with:
           versions: 1.19
 
