@@ -41,4 +41,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Spigot-JDK${{ matrix.java }}
-        path: spigot-lastet.jar
+        path: 'spigot-lastet.jar'
