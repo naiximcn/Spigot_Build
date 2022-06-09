@@ -35,9 +35,10 @@ jobs:
       run: |
         wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
         java -jar BuildTools.jar --rev 1.19
+        mv spigot-1.19.jar 1.19.jar
     # An artifact is generated in a compressed file according to each JDK build version.
     - name: Upload Spigot
       uses: actions/upload-artifact@v3
       with:
         name: Spigot-JDK${{ matrix.java }}
-        path: BuildFiles/1.19.jar
+        path: 1.19.jar
