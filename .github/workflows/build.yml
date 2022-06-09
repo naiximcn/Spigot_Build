@@ -34,8 +34,7 @@ jobs:
     - name: Build Spigot
       run: |
         wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-        java -jar BuildTools.jar --rev 1.19
-        mv *.jar spigot-lastet.jar
+        java -jar BuildTools.jar --rev lastet
     # An artifact is generated in a compressed file according to each JDK build version.
     - name: Upload Spigot
       uses: actions/upload-artifact@v3
